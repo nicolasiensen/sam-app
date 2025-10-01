@@ -53,6 +53,39 @@ The first command will build the source of your application. The second command 
 
 The API Gateway endpoint API will be displayed in the outputs when the deployment is complete.
 
+## Set up the DynamoDB local instance 
+
+Create a Docker network:
+
+```bash
+my-application$ docker network create local-api-network
+```
+
+Run DynamoDB with Docker:
+
+```bash
+my-application$ docker run -d -p 8000:8000 --network=local-api-network --name dynamo-local amazon/dynamodb-local
+``` 
+
+Verify the DynamoDB instance is running:
+
+```bash
+my-application$ aws dynamodb list-tables --endpoint-url http://localhost:8000
+``` 
+
+Create the database table:
+
+```bash
+my-application$ aws dynamodb create-table \
+                    --table-name Person \
+                    --attribute-definitions \
+                      AttributeName=id,AttributeType=S \
+                      AttributeName=name,AttributeType=S \
+                    --key-schema AttributeName=id,KeyType=HASH AttributeName=name,KeyType=RANGE \
+                    --billing-mode PAY_PER_REQUEST \
+                    --table-class STANDARD
+```
+
 ## Use the AWS SAM CLI to build and test locally
 
 Build your application by using the `sam build` command.
@@ -75,7 +108,7 @@ my-application$ sam local invoke getAllItemsFunction --event events/event-get-al
 The AWS SAM CLI can also emulate your application's API. Use the `sam local start-api` command to run the API locally on port 3000.
 
 ```bash
-my-application$ sam local start-api
+my-application$ sam local start-api --docker-network local-api-network --env-vars ./env.json
 my-application$ curl http://localhost:3000/
 ```
 

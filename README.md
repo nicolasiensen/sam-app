@@ -105,10 +105,10 @@ my-application$ sam local invoke putItemFunction --event events/event-post-item.
 my-application$ sam local invoke getAllItemsFunction --event events/event-get-all-items.json
 ```
 
-The AWS SAM CLI can also emulate your application's API. Use the `sam local start-api` command to run the API locally on port 3000.
+Use the command below to run the API locally on port 3000.
 
 ```bash
-my-application$ sam local start-api --docker-network local-api-network --env-vars ./env.json
+my-application$ npm run dev
 my-application$ curl http://localhost:3000/
 ```
 

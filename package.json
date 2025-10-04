@@ -13,7 +13,9 @@
     },
     "scripts": {
         "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js",
-        "dev": "sam build && sam local start-api --docker-network local-api-network --env-vars ./env.json"
+        "dev": "sam build && sam local start-api --docker-network local-api-network --env-vars ./env.json",
+        "build": "sam build",
+        "deploy": "sam deploy"
     },
     "jest": {
         "testMatch": [

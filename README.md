@@ -43,17 +43,11 @@ To use the AWS SAM CLI, you need the following tools:
 To build and deploy your application for the first time, run the following in your shell:
 
 ```bash
-sam build
-sam deploy --guided
+npm run build
+npm run deploy -- --guided
 ```
 
 The first command will build the source of your application. The second command will package and deploy your application to AWS, with a series of prompts:
-
-* **Stack Name**: The name of the stack to deploy to CloudFormation. This should be unique to your account and region, and a good starting point would be something matching your project name.
-* **AWS Region**: The AWS region you want to deploy your app to.
-* **Confirm changes before deploy**: If set to yes, any change sets will be shown to you before execution for manual review. If set to no, the AWS SAM CLI will automatically deploy application changes.
-* **Allow SAM CLI IAM role creation**: Many AWS SAM templates, including this example, create AWS IAM roles required for the AWS Lambda function(s) included to access AWS services. By default, these are scoped down to minimum required permissions. To deploy an AWS CloudFormation stack which creates or modifies IAM roles, the `CAPABILITY_IAM` value for `capabilities` must be provided. If permission isn't provided through this prompt, to deploy this example you must explicitly pass `--capabilities CAPABILITY_IAM` to the `sam deploy` command.
-* **Save arguments to samconfig.toml**: If set to yes, your choices will be saved to a configuration file inside the project, so that in the future you can just re-run `sam deploy` without parameters to deploy changes to your application.
 
 The API Gateway endpoint API will be displayed in the outputs when the deployment is complete.
 
@@ -90,15 +84,15 @@ my-application$ aws dynamodb create-table \
                     --table-class STANDARD
 ```
 
-## Use the AWS SAM CLI to build and test locally
+## Build and test locally
 
-Build your application by using the `sam build` command.
+Build your application by using the `npm run build` command.
 
 ```bash
-my-application$ sam build
+my-application$ npm run build
 ```
 
-The AWS SAM CLI installs dependencies that are defined in `package.json`, creates a deployment package, and saves it in the `.aws-sam/build` folder.
+The command installs dependencies that are defined in `package.json`, creates a deployment package, and saves it in the `.aws-sam/build` folder.
 
 Test a single function by invoking it directly with a test event. An event is a JSON document that represents the input that the function receives from the event source. Test events are included in the `events` folder in this project.
 
@@ -154,7 +148,7 @@ The dead-letter queue is a location for Lambda to send events that could not be 
 Deploy the updated application.
 
 ```bash
-my-application$ sam deploy
+my-application$ npm run deploy
 ```
 
 Open the [**Applications**](https://console.aws.amazon.com/lambda/home#/applications) page of the Lambda console, and choose your application. When the deployment completes, view the application resources on the **Overview** tab to see the new resource. Then, choose the function to see the updated configuration that specifies the dead-letter queue.
